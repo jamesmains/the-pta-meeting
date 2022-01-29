@@ -15,6 +15,9 @@ using UnityEngine.Events;
 ///         rotations it can rotate the wrong way.
 ///     |- SUSPECTED CAUSE: Since rotations don't actually handle negative values it may be
 ///         flipping them to positive in unintended ways. Needs investigating.
+///             |-> Well actually it was performing EXACTLY as instructed but because it is lerping to a value between 1 & 360
+///                 it can only go down when it's in the higher ranges. So to go from 360 to 1 it goes down rather than flip over.
+///     |-> PARTIAL SOLUTION: Fixed for World Space rotation by converting to Quaternion.RotateTowards
 ///
 ///
 /// // Minor bugs and UX issues
@@ -97,12 +100,13 @@ namespace JimJam.Gameplay
 
         #endregion
 
+        #region Unity Functions
+
         private void Awake()
         {
             StartupAction();
         }
         
-        // Currently only used for debugging
         private void Update()
         {
             if(Input.GetKeyDown(KeyCode.Space))
@@ -126,7 +130,8 @@ namespace JimJam.Gameplay
             }
         }
 
-        // Init, starts, goto
+        #endregion
+        
         #region Start Action Functions
 
         void StartupAction()
@@ -257,15 +262,15 @@ namespace JimJam.Gameplay
 
         #endregion
 
-        // Get points, targets, values
         #region Helper Functions
 
         void LogNoTargetsWarning()
         {
+            GameObject o;
             Debug.LogWarning(
                 "Smooth Moves Error: No target points!, Object: "
-                + this.gameObject.name.ToString(),
-                this.gameObject);
+                + (o = gameObject).name.ToString(),
+                o);
         }
         
         int GetValidPointAt(int index)
@@ -327,7 +332,8 @@ namespace JimJam.Gameplay
                     switch (spaceType)
                     {
                         case SpaceTypes.WorldSpace:
-                            value = isLocal ? transform.localPosition : transform.position;
+                            var t = transform;
+                            value = isLocal ? t.localPosition : t.position;
                             break;
                         case SpaceTypes.GUI:
                             RectTransform rt = GetComponent<RectTransform>();
@@ -380,7 +386,6 @@ namespace JimJam.Gameplay
         
         #endregion
 
-        // Stop, goto, apply
         #region Action Functions
 
         public void Stop()
@@ -464,7 +469,7 @@ namespace JimJam.Gameplay
             switch (spaceType)
             {
                 case SpaceTypes.WorldSpace:
-                    this.transform.rotation = Quaternion.Euler(incValue);
+                    this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation,Quaternion.Euler(incValue),Time.deltaTime*speed*speed);
                     break;
                 case SpaceTypes.GUI:
                     RectTransform rt = GetComponent<RectTransform>();
