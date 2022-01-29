@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Smooth Moves Tickets
@@ -85,7 +86,8 @@ namespace JimJam.Gameplay
         [Header("Targets")]
         [SerializeField] Vector3[] targetPoints;
         [SerializeField] private bool isLocal;
-        
+
+        public UnityEvent onReachedTarget;
         
         private int _headingDirection = 1;
         private int _currentTargetIndex,_currentPointIndex,_destinationIndex;
@@ -393,6 +395,7 @@ namespace JimJam.Gameplay
                 Stop();
                 _currentPointIndex = _currentTargetIndex;
                 GetNextTarget();
+                onReachedTarget.Invoke();
                 return;
             }
 
