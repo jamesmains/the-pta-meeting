@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private float moveDelay = 0.25f;
+    [SerializeField] private float leapTime = 0.25f;
     [SerializeField] private KeyCode up, down, left, right;
     [SerializeField] private LayerMask col;
     [SerializeField] private LayerMask ground;
@@ -160,7 +161,6 @@ public class PlayerInput : MonoBehaviour
     IEnumerator MoveCooldown()
     {
         yield return new WaitForSeconds(moveDelay);
-        print("setting can move");
         if (CheckGround()) _canMove = true;
         else ToggleMovers(false);
     }
@@ -177,7 +177,13 @@ public class PlayerInput : MonoBehaviour
         _destination.y -= 2;
         _mover.SetPoint(0,_destination);
         _mover.TravelToPoint(0);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(leapTime/4);
+        if (!CheckGround())
+        {
+            ToggleMovers(false);
+            yield break;
+        }
+        yield return new WaitForSeconds(leapTime/2);
         if (CheckGround()) _canMove = true;
         else ToggleMovers(false);
     }
