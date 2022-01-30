@@ -1,5 +1,6 @@
 using System.Collections;
 using JimJam.Gameplay;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
@@ -7,9 +8,8 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float moveDelay = 0.25f;
     [SerializeField] private KeyCode up, down, left, right;
     [SerializeField] private LayerMask ground;
-    [SerializeField] private float tTime = 0.5f;
     private int x, y;
-    private int r;
+    [HideInInspector] public int r;
     private int lastR;
     private Vector3 _destination;
     
@@ -65,6 +65,24 @@ public class PlayerInput : MonoBehaviour
         ResetMove();
     }
 
+    public void Leap(int comparedRotation)
+    {
+        if (comparedRotation == r && !_canMove)
+        {
+            _canMove = false;
+            _destination.x += x*2;
+            _destination.z += y*2;
+            _destination.y += 1;
+            
+            _mover.SetPoint(0,_destination);
+            _mover.TravelToPoint(0);
+            _gfx.GotoEnd();
+            StopCoroutine(MoveCooldown());
+            StopCoroutine(JumpCooldown());
+            StartCoroutine(LeapCooldown());
+        }
+    }
+
     private bool CheckGround()
     {
         RaycastHit hit;
@@ -101,5 +119,25 @@ public class PlayerInput : MonoBehaviour
     {
         yield return new WaitForSeconds(moveDelay/2);
         _gfx.TravelToPoint(0);
+    }
+
+    IEnumerator LeapCooldown()
+    {
+        yield return new WaitForSeconds(moveDelay);
+        _destination.y -= 1;
+        _mover.SetPoint(0,_destination);
+        _mover.TravelToPoint(0);
+        yield return new WaitForSeconds(moveDelay);
+        if (CheckGround())
+        {
+            _canMove = true;
+            
+        }
+        else
+        {
+            _canMove = false;
+            _mover.enabled = false;
+            _rb.isKinematic = false;
+        }
     }
 }

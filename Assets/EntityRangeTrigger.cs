@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JimJam.Gameplay;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,6 +11,9 @@ public class EntityRangeTrigger : MonoBehaviour
     [SerializeField] private UnityEvent onEnterTrigger;
     [SerializeField] private UnityEvent onExitTrigger;
 
+    [SerializeField] private TryLeap tryLeap;
+    [SerializeField] private PlayerInput parentInput;
+    
     [Header("Debug")]
     [SerializeField] private bool debugging;
 
@@ -20,6 +24,7 @@ public class EntityRangeTrigger : MonoBehaviour
         if (other.CompareTag(targetEntity))
         {
             onEnterTrigger.Invoke();
+            tryLeap.Invoke(parentInput.r);
             if (debugging)
                 print($"{other.gameObject.name} collided with {gameObject.name}");
         }
