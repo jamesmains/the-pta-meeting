@@ -9,12 +9,13 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private LayerMask ground;
     [SerializeField] private float tTime = 0.5f;
     private int x, y;
-    public int r;
-    public int lastR;
+    private int r;
+    private int lastR;
     private Vector3 _destination;
     
     private bool _canMove;
 
+    
     public SmoothMoves _mover;
     public SmoothMoves _turner;
     public SmoothMoves _gfx;
@@ -26,6 +27,7 @@ public class PlayerInput : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _canMove = true;
         _destination = transform.position;
+        _mover.SetPoint(0,_destination);
     }
 
     private void Update()

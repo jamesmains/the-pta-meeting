@@ -109,12 +109,6 @@ namespace JimJam.Gameplay
         
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.Space))
-                GotoEnd();
-            if(Input.GetKeyDown(KeyCode.A))
-                GotoNext(-1);
-            if(Input.GetKeyDown(KeyCode.D))
-                GotoNext(1);
         }
 
         private void FixedUpdate()
