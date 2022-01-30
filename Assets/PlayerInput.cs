@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JimJam.Gameplay;
@@ -5,13 +6,23 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
+    public enum FrogColors
+    {
+        Purple = 0,
+        Yellow = 1
+    }
+
+    [Header("Frog Settings")]
+    public FrogColors frogColor;
     [SerializeField] private float moveDelay = 0.25f;
     [SerializeField] private float leapTime = 0.25f;
     [SerializeField] private KeyCode up, down, left, right;
+    
+    [Header("")]
     [SerializeField] private LayerMask col;
     [SerializeField] private LayerMask ground;
     [SerializeField] private float deathFloor;
-    [SerializeField] private Vector3 _lastKnownPosition;
+    [SerializeField] private Vector3 respawnPos;
     public int x, y;
     [HideInInspector] public int r;
     private int lastR;
@@ -34,6 +45,11 @@ public class PlayerInput : MonoBehaviour
         _mover.SetPoint(0,_destination);
         _mover.TravelToPoint(0);
         keys = new[] {up, down, left, right};
+    }
+
+    private void Start()
+    {
+        Reset();
     }
 
     private void Update()
@@ -75,7 +91,7 @@ public class PlayerInput : MonoBehaviour
     private void Reset()
     {
         ToggleMovers(true);
-        _destination = transform.position = _lastKnownPosition;
+        _destination = transform.position = respawnPos;
         _mover.SetPoint(0,_destination);
         _mover.TravelToPoint(0);
         transform.rotation = Quaternion.Euler(Vector3.zero);
@@ -90,7 +106,6 @@ public class PlayerInput : MonoBehaviour
     
     private void Move()
     {
-        _lastKnownPosition = _destination;
         var dir = Vector3.zero;
         dir.x += x;
         dir.z += y;
@@ -193,5 +208,10 @@ public class PlayerInput : MonoBehaviour
         _canMove = state;
         _mover.enabled = state;
         _rb.isKinematic = state;
+    }
+
+    public void SetCheckPoint(Vector3 pos)
+    {
+        respawnPos = pos;
     }
 }
