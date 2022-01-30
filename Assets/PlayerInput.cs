@@ -1,20 +1,23 @@
 using System.Collections;
+using System.Collections.Generic;
 using JimJam.Gameplay;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private float moveDelay = 0.25f;
     [SerializeField] private KeyCode up, down, left, right;
+    [SerializeField] private LayerMask col;
     [SerializeField] private LayerMask ground;
-    private int x, y;
+    [SerializeField] private float deathFloor;
+    [SerializeField] private Vector3 _lastKnownPosition;
+    public int x, y;
     [HideInInspector] public int r;
     private int lastR;
     private Vector3 _destination;
-    
     private bool _canMove;
-
+    public List<KeyCode> keyPressOrder;
+    public KeyCode[] keys;
     
     public SmoothMoves _mover;
     public SmoothMoves _turner;
@@ -28,26 +31,56 @@ public class PlayerInput : MonoBehaviour
         _canMove = true;
         _destination = transform.position;
         _mover.SetPoint(0,_destination);
+        _mover.TravelToPoint(0);
+        keys = new[] {up, down, left, right};
     }
 
     private void Update()
     {
-        x = Input.GetKey(left) ? -1 : Input.GetKey(right) ? 1 : 0;
-        y = Input.GetKey(down) ? -1 : Input.GetKey(up) ? 1 : 0;
+        int keysPressed = 0;
+        foreach (var key in keys)
+        {
+            if (Input.GetKey(key))
+                keysPressed++;
+            if(Input.GetKey(key) && !keyPressOrder.Contains(key))
+                keyPressOrder.Add(key);
+            else if (Input.GetKeyUp(key) && keyPressOrder.Contains(key))
+                keyPressOrder.Remove(key);
+        }
+        if(keysPressed==0) keyPressOrder.Clear();
+        if (keyPressOrder.Count > 0)
+        {
+            var key = keyPressOrder[^1];
+            x = key == left ? -1 : key == right ? 1 : 0;
+            y = key == down ? -1 : key == up ? 1 : 0;
+        }
+        else x = y = 0;
     }
 
     private void FixedUpdate()
     {
         r = x == 0 && y == 1 ? 0 : x == 1 && y == 0 ? 90 : x == 0 && y == -1 ? 180 : x == -1 && y == 0 ? 270 : lastR;
-        if (lastR != r)
+        if (lastR != r && _canMove)
         {
             lastR = r;
             Turn();
         }
         if(_canMove && (x !=0 || y!=0) )
             Move();
+        if(transform.position.y<deathFloor)
+            Reset();
     }
 
+    private void Reset()
+    {
+        ToggleMovers(true);
+        _destination = transform.position = _lastKnownPosition;
+        _mover.SetPoint(0,_destination);
+        _mover.TravelToPoint(0);
+        transform.rotation = Quaternion.Euler(Vector3.zero);
+        Turn();
+    }
+    
     private void Turn()
     {
         _turner.SetPoint(0, new Vector3(0,r,0));
@@ -56,31 +89,56 @@ public class PlayerInput : MonoBehaviour
     
     private void Move()
     {
+        _lastKnownPosition = _destination;
+        var dir = Vector3.zero;
+        dir.x += x;
+        dir.z += y;
+        // Shoot ray
+        int state = CheckCols(dir);
+        if (state == 1) Leap();
+        else if(state == 2) return;
+        
+        if (!_canMove) return;
+        
         _canMove = false;
-        _destination.x += x;
-        _destination.z += y;
+        _destination += dir;
         _mover.SetPoint(0,_destination);
         _mover.TravelToPoint(0);
         _gfx.GotoEnd();
+        
         ResetMove();
     }
 
-    public void Leap(int comparedRotation)
+    public void Leap()
     {
-        if (comparedRotation == r && !_canMove)
+        _canMove = false;
+        _destination.x += x*3;
+        _destination.z += y*3;
+        _destination.y += 2;
+        _mover.SetPoint(0,_destination);
+        _mover.TravelToPoint(0);
+        
+        StopCoroutine(MoveCooldown());
+        StopCoroutine(JumpCooldown());
+        StartCoroutine(LeapCooldown());
+    }
+
+    private int CheckCols(Vector3 dir)
+    {
+        RaycastHit hit;
+        var origin = transform.position;
+        origin.y -= .45f;
+        if (Physics.Raycast(origin, dir, out hit, 1, col))
         {
-            _canMove = false;
-            _destination.x += x*2;
-            _destination.z += y*2;
-            _destination.y += 1;
-            
-            _mover.SetPoint(0,_destination);
-            _mover.TravelToPoint(0);
-            _gfx.GotoEnd();
-            StopCoroutine(MoveCooldown());
-            StopCoroutine(JumpCooldown());
-            StartCoroutine(LeapCooldown());
+            if (hit.transform.CompareTag("Frog") && hit.transform.gameObject != this.gameObject)
+            {
+                if (hit.transform.GetComponent<PlayerInput>().r == r)
+                    return 1;
+                else return 2;
+            }
+            else return 2;
         }
+        else return 0;
     }
 
     private bool CheckGround()
@@ -102,17 +160,9 @@ public class PlayerInput : MonoBehaviour
     IEnumerator MoveCooldown()
     {
         yield return new WaitForSeconds(moveDelay);
-        if (CheckGround())
-        {
-            _canMove = true;
-            
-        }
-        else
-        {
-            _canMove = false;
-            _mover.enabled = false;
-            _rb.isKinematic = false;
-        }
+        print("setting can move");
+        if (CheckGround()) _canMove = true;
+        else ToggleMovers(false);
     }
 
     IEnumerator JumpCooldown()
@@ -123,21 +173,19 @@ public class PlayerInput : MonoBehaviour
 
     IEnumerator LeapCooldown()
     {
-        yield return new WaitForSeconds(moveDelay);
-        _destination.y -= 1;
+        yield return new WaitForSeconds(moveDelay/2);
+        _destination.y -= 2;
         _mover.SetPoint(0,_destination);
         _mover.TravelToPoint(0);
-        yield return new WaitForSeconds(moveDelay);
-        if (CheckGround())
-        {
-            _canMove = true;
-            
-        }
-        else
-        {
-            _canMove = false;
-            _mover.enabled = false;
-            _rb.isKinematic = false;
-        }
+        yield return new WaitForSeconds(1);
+        if (CheckGround()) _canMove = true;
+        else ToggleMovers(false);
+    }
+
+    private void ToggleMovers(bool state)
+    {
+        _canMove = state;
+        _mover.enabled = state;
+        _rb.isKinematic = state;
     }
 }

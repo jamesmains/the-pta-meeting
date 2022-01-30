@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PurpleFrog
   - YellowFrog
+  - Frog
   layers:
   - Default
   - TransparentFX
