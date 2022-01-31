@@ -166,7 +166,6 @@ public class PlayerInput : MonoBehaviour
         {
             if (Physics.Raycast(transform.position, Vector3.down, out hit2, 2, saveGround))
             {
-                Debug.Log(hit2.collider.gameObject.name,hit2.collider.gameObject);
                 SetCheckPoint(_destination);
             }
             return true;
