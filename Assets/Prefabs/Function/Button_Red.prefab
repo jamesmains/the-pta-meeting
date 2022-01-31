@@ -304,7 +304,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8692521361176153999}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.11, y: -0.625, z: 1.99}
+  m_LocalPosition: {x: -1.027, y: -0.625, z: -2.048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -343,7 +343,7 @@ MonoBehaviour:
   onEnterTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2047707860017452875}
         m_TargetAssemblyTypeName: JimJam.Gameplay.SmoothMoves, Assembly-CSharp
         m_MethodName: GotoOpposite
         m_Mode: 1
@@ -358,7 +358,7 @@ MonoBehaviour:
   onExitTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2047707860017452875}
         m_TargetAssemblyTypeName: JimJam.Gameplay.SmoothMoves, Assembly-CSharp
         m_MethodName: GotoOpposite
         m_Mode: 1
