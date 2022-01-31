@@ -1267,7 +1267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: Stage1
-  details: frog time
+  details: learn to leap
   inputSpeed: 0
   resetDisplay: {fileID: 0}
   quitDisplay: {fileID: 0}
