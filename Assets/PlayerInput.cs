@@ -128,8 +128,8 @@ public class PlayerInput : MonoBehaviour
     public void Leap()
     {
         _canMove = false;
-        _destination.x += x*3;
-        _destination.z += y*3;
+        _destination.x += x*4;
+        _destination.z += y*4;
         _destination.y += 2;
         _mover.SetPoint(0,_destination);
         _mover.TravelToPoint(0);
