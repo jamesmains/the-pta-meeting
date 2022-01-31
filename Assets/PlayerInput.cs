@@ -21,6 +21,7 @@ public class PlayerInput : MonoBehaviour
     [Header("")]
     [SerializeField] private LayerMask col;
     [SerializeField] private LayerMask ground;
+    [SerializeField] private LayerMask saveGround;
     [SerializeField] private float deathFloor;
     [SerializeField] private Vector3 respawnPos;
     public int x, y;
@@ -38,13 +39,13 @@ public class PlayerInput : MonoBehaviour
     
     private void Awake()
     {
-        //_mover = GetComponent<SmoothMoves>();
         _rb = GetComponent<Rigidbody>();
         _canMove = true;
         _destination = transform.position;
         _mover.SetPoint(0,_destination);
         _mover.TravelToPoint(0);
         keys = new[] {up, down, left, right};
+        SetCheckPoint(_destination);
     }
 
     private void Start()
@@ -162,8 +163,13 @@ public class PlayerInput : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 2, ground))
         {
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 2, saveGround))
+            {
+                SetCheckPoint(_destination);
+            }
             return true;
         }
+        
         else return false;
     }
 
