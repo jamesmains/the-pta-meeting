@@ -36,10 +36,12 @@ public class PlayerInput : MonoBehaviour
     public SmoothMoves _turner;
     public SmoothMoves _gfx;
     private Rigidbody _rb;
+    private AudioSource _sfx;
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _sfx = GetComponent<AudioSource>();
         _canMove = true;
         _destination = transform.position;
         _mover.SetPoint(0,_destination);
@@ -116,7 +118,7 @@ public class PlayerInput : MonoBehaviour
         else if(state == 2) return;
         
         if (!_canMove) return;
-        
+        _sfx.PlayOneShot(_sfx.clip);
         _canMove = false;
         _destination += dir;
         _mover.SetPoint(0,_destination);
