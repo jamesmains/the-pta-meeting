@@ -1268,7 +1268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: Stage1
-  details: learn to leap
+  details: leaps to make
   inputSpeed: 0
   resetDisplay: {fileID: 0}
   quitDisplay: {fileID: 0}
