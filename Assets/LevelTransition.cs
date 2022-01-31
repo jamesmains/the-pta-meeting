@@ -9,6 +9,10 @@ using UnityEngine.SceneManagement;
 public class LevelTransition : MonoBehaviour
 {
     [SerializeField] float waitTime;
+
+    [SerializeField] private string currentLevel;
+    [SerializeField] private string currentDetails;
+    
     [SerializeField] private TextMeshProUGUI detailsDisplay;
 
     [SerializeField] private UnityEvent onTransitionStart;
@@ -24,14 +28,22 @@ public class LevelTransition : MonoBehaviour
             Destroy(gameObject);
         else { instance = this; DontDestroyOnLoad(gameObject); }
     }
+
+    public void ResetLevel()
+    {
+        GotoLevel(currentLevel, currentDetails);
+    }
+    
     public void GotoLevel(string target, string targetDetails)
     {
         if (!_ready) return;
         
         if ((SceneUtility.GetBuildIndexByScenePath(target) >= 0))
         { 
+            currentLevel = target;
+            currentDetails = targetDetails;
             _ready = false;
-            StartCoroutine(Goto(target));
+            StartCoroutine(Goto(currentLevel));
             detailsDisplay.text = targetDetails;
         }
         else { Debug.LogError("No scene by that name exists... check the build settings."); }

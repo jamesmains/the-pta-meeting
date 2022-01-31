@@ -621,6 +621,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitTime: 2
+  currentLevel: 
+  currentDetails: 
   detailsDisplay: {fileID: 1567778570}
   onTransitionStart:
     m_PersistentCalls:
@@ -1264,8 +1266,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf0574e892769345928e8b48fd25de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: SampleScene
+  targetSceneName: Stage1
   details: frog time
+  inputSpeed: 0
+  resetDisplay: {fileID: 0}
+  quitDisplay: {fileID: 0}
+  quitLevel:
+    m_PersistentCalls:
+      m_Calls: []
+  resetLevel:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &838341441
 MonoBehaviour:
   m_ObjectHideFlags: 0
