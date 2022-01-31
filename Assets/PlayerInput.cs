@@ -161,10 +161,12 @@ public class PlayerInput : MonoBehaviour
     private bool CheckGround()
     {
         RaycastHit hit;
+        RaycastHit hit2;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 2, ground))
         {
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 2, saveGround))
+            if (Physics.Raycast(transform.position, Vector3.down, out hit2, 2, saveGround))
             {
+                Debug.Log(hit2.collider.gameObject.name,hit2.collider.gameObject);
                 SetCheckPoint(_destination);
             }
             return true;
