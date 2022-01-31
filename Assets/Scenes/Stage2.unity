@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 9245.494, g: 9604.498, b: 10783.403, a: 1}
+  m_IndirectSpecularColor: {r: 9245.475, g: 9604.354, b: 10783.323, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -311,21 +311,25 @@ PrefabInstance:
       propertyPath: onEnterTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1960253738045099261, guid: 13a5814b98e89534e9094287ff010187, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.131
+      objectReference: {fileID: 0}
     - target: {fileID: 2603250281203132997, guid: 13a5814b98e89534e9094287ff010187, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2603250281203132997, guid: 13a5814b98e89534e9094287ff010187, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 3.012
       objectReference: {fileID: 0}
     - target: {fileID: 2603250281203132997, guid: 13a5814b98e89534e9094287ff010187, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.625
+      value: -0.671
       objectReference: {fileID: 0}
     - target: {fileID: 2603250281203132997, guid: 13a5814b98e89534e9094287ff010187, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4
+      value: 4.042
       objectReference: {fileID: 0}
     - target: {fileID: 2603250281203132997, guid: 13a5814b98e89534e9094287ff010187, type: 3}
       propertyPath: m_LocalRotation.w
@@ -482,7 +486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2603250281203132997, guid: 13a5814b98e89534e9094287ff010187, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.625
+      value: -0.659
       objectReference: {fileID: 0}
     - target: {fileID: 2603250281203132997, guid: 13a5814b98e89534e9094287ff010187, type: 3}
       propertyPath: m_LocalPosition.z
@@ -655,6 +659,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2147207899477220589, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.647
+      objectReference: {fileID: 0}
     - target: {fileID: 4529582454635715872, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.0000005
@@ -677,15 +685,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4951967716069904951, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.42891705
+      value: 0.42891702
       objectReference: {fileID: 0}
     - target: {fileID: 4951967716069904951, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.12626241
+      value: -0.12626243
       objectReference: {fileID: 0}
     - target: {fileID: 4951967716069904951, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.060684852
+      value: 0.06068486
       objectReference: {fileID: 0}
     - target: {fileID: 4951967716413253576, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
       propertyPath: m_RootOrder
@@ -745,15 +753,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4951967716657674332, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.42891705
+      value: 0.42891702
       objectReference: {fileID: 0}
     - target: {fileID: 4951967716657674332, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.12626241
+      value: -0.12626243
       objectReference: {fileID: 0}
     - target: {fileID: 4951967716657674332, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.060684852
+      value: 0.06068486
       objectReference: {fileID: 0}
     - target: {fileID: 4951967716749624466, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -774,6 +782,10 @@ PrefabInstance:
     - target: {fileID: 5314314497201444944, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314314497201444944, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.654
       objectReference: {fileID: 0}
     - target: {fileID: 5314314497201444944, guid: a9506ddcbc69a75439d3ae7b13bbb38d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -884,6 +896,10 @@ PrefabInstance:
       propertyPath: onEnterTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1960253738045099261, guid: 13a5814b98e89534e9094287ff010187, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.003
+      objectReference: {fileID: 0}
     - target: {fileID: 2603250281203132997, guid: 13a5814b98e89534e9094287ff010187, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -894,11 +910,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2603250281203132997, guid: 13a5814b98e89534e9094287ff010187, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.625
+      value: -0.661
       objectReference: {fileID: 0}
     - target: {fileID: 2603250281203132997, guid: 13a5814b98e89534e9094287ff010187, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9
+      value: 9.019
       objectReference: {fileID: 0}
     - target: {fileID: 2603250281203132997, guid: 13a5814b98e89534e9094287ff010187, type: 3}
       propertyPath: m_LocalRotation.w
